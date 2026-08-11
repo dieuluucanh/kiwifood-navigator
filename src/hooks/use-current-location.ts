@@ -98,12 +98,12 @@ const useCurrentLocation = () => {
         // Immediately call the live location initializer on mount
         initializeLiveLocation();
 
-        // Then set an interval to update every 5 minutes (300,000ms)
+        // Then set an interval to update every 10 minutes (600,000ms)
         const intervalId = setInterval(
             () => {
                 initializeLiveLocation();
             },
-            1000 * 60 * 5
+            1000 * 60 * 10
         );
 
         return () => {

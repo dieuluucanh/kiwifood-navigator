@@ -3,6 +3,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Platform, Linking } from 'react-native';
 import { request, check, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import BackgroundGeolocation from 'react-native-background-geolocation';
 import { Button, Text, YStack, Image, XStack, AlertDialog } from 'tamagui';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
@@ -61,6 +62,18 @@ const LocationPermissionScreen: React.FC = () => {
 
         const status = await request(perm);
         if (status === RESULTS.GRANTED) {
+            if (Platform.OS === 'android') {
+                // Foreground fix is enough to proceed — background tracking needs
+                // ACCESS_BACKGROUND_LOCATION, which Android 11+ only grants via a
+                // follow-up prompt. Ask for it now so background tracking works
+                // out of the box; never block the flow if the user declines.
+                await request(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION).catch(() => undefined);
+            } else if (Platform.OS === 'ios') {
+                // Upgrade "While Using" to "Always" so background tracking works.
+                // The SDK presents its own two-step flow using the rationale
+                // dialog configured in LocationContext.
+                await BackgroundGeolocation.requestPermission().catch(() => undefined);
+            }
             return finish(true);
         }
 

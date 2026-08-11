@@ -100,3 +100,5 @@ navigator.config.js
 .tamagui
 vendor
 *.pxd
+
+android\gradle.properties
