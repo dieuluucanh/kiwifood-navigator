@@ -218,8 +218,8 @@ export async function getLiveLocation(adapter) {
     return new Promise((resolve) => {
         BackgroundGeolocation.getCurrentPosition(
             {
-                samples: 3,
-                desiredAccuracy: 1,
+                samples: 1,
+                desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
                 extras: {
                     event: 'getCurrentPosition',
                 },
@@ -259,8 +259,8 @@ export async function getCurrentLocation(adapter) {
     return new Promise((resolve) => {
         BackgroundGeolocation.getCurrentPosition(
             {
-                samples: 3,
-                desiredAccuracy: 1,
+                samples: 1,
+                desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
                 extras: {
                     event: 'getCurrentPosition',
                 },

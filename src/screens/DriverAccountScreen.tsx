@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { showActionSheet, abbreviateName } from '../utils';
 import { titleize } from '../utils/format';
+import { openBatteryOptimizationSettings } from '../utils/battery-optimization';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import useAppTheme from '../hooks/use-app-theme';
@@ -279,6 +280,22 @@ const DriverAccountScreen = () => {
             rightComponent: null,
             onPress: handleClearCache,
         },
+        // Android only: OEM battery managers kill the background location
+        // service for "optimized" apps; this opens the system screen where the
+        // driver can mark Navigator as "Don't optimize".
+        ...(Platform.OS === 'android'
+            ? [
+                  {
+                      title: 'Battery Optimization',
+                      rightComponent: (
+                          <Text color='$textSecondary' opacity={0.5}>
+                              Set to "Don't optimize" for reliable tracking
+                          </Text>
+                      ),
+                      onPress: openBatteryOptimizationSettings,
+                  },
+              ]
+            : []),
         // {
         //     title: t('AccountScreen.tracking'),
         //     rightComponent: <Text color='$textSecondary'>Enabled</Text>, // Replace with dynamic value if available

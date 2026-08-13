@@ -22,6 +22,8 @@
         "tamagui:build": "./node_modules/.bin/tamagui-build",
         "tamagui:clean": "./node_modules/.bin/tamagui-build clean",
         "android:clean": "cd android && ./gradlew clean && cd ../",
+        "android:debug": "cd android && ./gradlew assembleDebug -PreactNativeArchitectures=arm64-v8a && cd ../",
+        "android:release": "cd android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a && cd ../",
         "adb:reverse": "adb reverse tcp:8081 tcp:8081",
         "adb:devmenu": "adb shell input keyevent 82",
         "generate:app-icon": "npx app-icon generate -i ./assets/app-icon.png && node scripts/fix-android-app-icons.js --input ./assets/app-icon.png",
